@@ -42,6 +42,10 @@ class _CardWidgetState extends State<CardWidget> {
             Text(widget.user.name),
           ],
         ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(left: 60),
+          child: Text(widget.user.company.name),
+        ),
       ),
     );
   }

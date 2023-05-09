@@ -29,21 +29,21 @@ class _MyHomePageState extends State<MyHomePage> {
           setState(() {});
         },
         child: FutureBuilder<List<User>>( //рез-т выполнения future будет иметь тип данных list user
-            future: _userRepository.getUsers(), //вызыаем метод
-            builder: (_, snapshot) {
+            future: _userRepository.getUsers(), //вызыаем ассинхр. метод
+            builder: (_, snapshot) { // присваивается коллбек - снэпшот
               //snapshot - рез-т выполнения future (обёртка)
               if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                final items = snapshot.data as List<User>;
+                final items = snapshot.data as List<User>; // приводим к не-null
 
                 return ListView.separated(
                   itemCount: items.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (_, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CardWidget(user: items[index]),
+                      child: CardWidget(user: items[index]), //кладем каждого юзера из списка юзеров
                     );
                   },
-                  separatorBuilder: (BuildContext context, int index) {
+                  separatorBuilder: (_, int index) {
                     return const SizedBox(height: 8);
                   },
                 );

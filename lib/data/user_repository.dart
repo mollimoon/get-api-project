@@ -6,19 +6,20 @@ import 'dart:convert';
 import 'package:untitled2/data/api_constants.dart';
 import 'package:untitled2/data/user.dart';
 
-class UserRepository {
+class UserRepository { // чтобы инкапсулировать логику получения данных из api
   Future<List<User>> getUsers() async {
     final url = Uri.parse(ApiConstants.getUsers); //парсим в uri-объект
-    final response = await http.get(url); //использ его для get-запроса
+    final response = await http.get(url); // результат выполн-я get-запроса по указанной url
+    //в виде объекта response
 
     if (response.statusCode == 200) {
-      final jsonString = response.body; // получение body-ответа
-      final json = jsonDecode(jsonString); //преобраз-е body из String в объект
+      final jsonString = response.body; // получение тела ответа
+      final json = jsonDecode(jsonString); //преобраз-е body из String в список map-объектов (инфо из api)
 
       final usersList = <User>[];
 
       for (final item in json) {
-        final user = User.fromJson(item); // конверт-ция mар в тип user
+        final user = User.fromJson(item); // конверт-ция mар в тип user (См.user.dart)
         usersList.add(user); //наполняем лист usersList
       }
 
