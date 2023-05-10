@@ -1,22 +1,19 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:untitled2/data/user_repository.dart';
 
 import '../data/user.dart';
 import 'card_widget.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class UsersListPage extends StatefulWidget {
+  const UsersListPage({super.key, required this.title});
 
   final String title;
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<UsersListPage> createState() => _UsersListPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _UsersListPageState extends State<UsersListPage> {
   final _userRepository = UserRepository(); //конструируем объект
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +25,14 @@ class _MyHomePageState extends State<MyHomePage> {
         onRefresh: () async {
           setState(() {});
         },
-        child: FutureBuilder<List<User>>( //рез-т выполнения future будет иметь тип данных list user
+        child: FutureBuilder<List<User>>(
+            //рез-т выполнения future будет иметь тип данных list user
             future: _userRepository.getUsers(), //вызыаем ассинхр. метод
-            builder: (_, snapshot) { // присваивается коллбек - снэпшот
+            builder: (_, snapshot) {
+              // присваивается коллбек - снэпшот
               //snapshot - рез-т выполнения future (обёртка)
-              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
                 final items = snapshot.data as List<User>; // приводим к не-null
 
                 return ListView.separated(
@@ -40,7 +40,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (_, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CardWidget(user: items[index]), //кладем каждого юзера из списка юзеров
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/cardDetail',
+                              arguments: items[index]);
+                        },
+                        child: CardWidget(user: items[index]),
+                      ), //кладем каждого юзера из списка юзеров
                     );
                   },
                   separatorBuilder: (_, int index) {
