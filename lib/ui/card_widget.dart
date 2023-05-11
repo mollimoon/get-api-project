@@ -31,10 +31,14 @@ class _CardWidgetState extends State<CardWidget> {
         ),
         title: Row(
           children: [
-            CircleAvatar(
-              backgroundColor:
-                  Colors.primaries[_random.nextInt(Colors.primaries.length)]
-                      [_random.nextInt(9) * 100],
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor:
+                    Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                        [_random.nextInt(9) * 100],
+              ),
             ),
             const SizedBox(
               width: 20,
@@ -43,7 +47,7 @@ class _CardWidgetState extends State<CardWidget> {
           ],
         ),
         subtitle: Padding(
-          padding: const EdgeInsets.only(left: 60),
+          padding: const EdgeInsets.only(left: 100, bottom: 10),
           child: Text(widget.user.company.name),
         ),
       ),

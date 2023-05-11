@@ -14,7 +14,7 @@ class GetApiApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        backgroundColor: Colors.black,
       ),
       routes: {
         Routes.main: (context) => const UsersListPage(title: ''),

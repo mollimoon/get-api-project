@@ -19,6 +19,7 @@ class _UsersListPageState extends State<UsersListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(widget.title),
       ),
       body: RefreshIndicator(
@@ -34,24 +35,26 @@ class _UsersListPageState extends State<UsersListPage> {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 final items = snapshot.data as List<User>; // приводим к не-null
-
-                return ListView.separated(
-                  itemCount: items.length,
-                  itemBuilder: (_, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/cardDetail',
-                              arguments: items[index]);
-                        },
-                        child: CardWidget(user: items[index]),
-                      ), //кладем каждого юзера из списка юзеров
-                    );
-                  },
-                  separatorBuilder: (_, int index) {
-                    return const SizedBox(height: 8);
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+                  child: ListView.separated(
+                    itemCount: items.length,
+                    itemBuilder: (_, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/cardDetail',
+                                arguments: items[index]);
+                          },
+                          child: CardWidget(user: items[index]),
+                        ), //кладем каждого юзера из списка юзеров
+                      );
+                    },
+                    separatorBuilder: (_, int index) {
+                      return const SizedBox(height: 8);
+                    },
+                  ),
                 );
               }
 
