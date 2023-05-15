@@ -4,7 +4,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:untitled2/data/api_constants.dart';
-import 'package:untitled2/data/user.dart';
+import 'package:untitled2/data/modals/avatar_photo.dart';
+import 'package:untitled2/data/modals/user.dart';
+
 
 class UserRepository { // чтобы инкапсулировать логику получения данных из api
   Future<List<User>> getUsers() async {
@@ -30,4 +32,30 @@ class UserRepository { // чтобы инкапсулировать логику
       throw Exception('Failed to load');
     }
   }
+
+
+  Future <List<AvatarPhoto>> getAvatarPicture() async {
+    final url = Uri.parse(ApiConstants.getAvatarPicture);
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final jsonString = response.body; // получение тела ответа
+      final json = jsonDecode(jsonString); //преобраз-е body из String в список map-объектов (инфо из api)
+
+      final avatarList = <AvatarPhoto>[];
+
+      for (final item in json) {
+        final avatar = AvatarPhoto.fromJson(item); // конверт-ция mар в тип user (См.user.dart)
+        avatarList.add(avatar); //наполняем лист usersList
+      }
+
+      return avatarList;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load');
+    }
+
+  }
+
 }

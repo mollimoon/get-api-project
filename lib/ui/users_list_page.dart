@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/data/routes.dart';
 import 'package:untitled2/data/user_repository.dart';
 
-import '../data/user.dart';
+import '../data/modals/user.dart';
 import 'card_widget.dart';
 
 class UsersListPage extends StatefulWidget {
@@ -36,7 +37,8 @@ class _UsersListPageState extends State<UsersListPage> {
                   snapshot.hasData) {
                 final items = snapshot.data as List<User>; // приводим к не-null
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
                   child: ListView.separated(
                     itemCount: items.length,
                     itemBuilder: (_, index) {
@@ -44,8 +46,11 @@ class _UsersListPageState extends State<UsersListPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/cardDetail',
-                                arguments: items[index]);
+                            Navigator.pushNamed(
+                              context,
+                              Routes.cardDetail,
+                              arguments: items[index],//индекс элемента
+                            );
                           },
                           child: CardWidget(user: items[index]),
                         ), //кладем каждого юзера из списка юзеров

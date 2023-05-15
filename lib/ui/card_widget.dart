@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../data/user.dart';
+import '../data/modals/user.dart';
 
 class CardWidget extends StatefulWidget {
   final User user;

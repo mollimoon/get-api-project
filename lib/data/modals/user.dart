@@ -1,5 +1,5 @@
-import 'package:untitled2/data/address.dart';
-import 'package:untitled2/data/company.dart';
+import 'package:untitled2/data/modals/address.dart';
+import 'package:untitled2/data/modals/company.dart';
 
 class User {
   // для хранения данных пользователя
