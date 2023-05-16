@@ -6,9 +6,9 @@ import '../data/modals/user.dart';
 import 'card_widget.dart';
 
 class UsersListPage extends StatefulWidget {
-  const UsersListPage({super.key, required this.title});
+  const UsersListPage({super.key, });
 
-  final String title;
+
   @override
   State<UsersListPage> createState() => _UsersListPageState();
 }
@@ -21,7 +21,6 @@ class _UsersListPageState extends State<UsersListPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(widget.title),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
