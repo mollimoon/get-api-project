@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/data/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled2/data/prefs_keys.dart';
+import '../get_api_app.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -97,6 +100,12 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushNamed(context, Routes.userListPage);
     }
   }
+
+  // Future<void> _saveLogin(BuildContext context) async { // объявили ассинхр фун-ю
+  //   await prefs.setString(PrefsKeys.login, _loginController.text);
+  //   await prefs.setString(PrefsKeys.password, _passwordController.text);
+  //   Navigator.pop(context);
+  // }
 
 }
 
