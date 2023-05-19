@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:untitled2/data/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled2/data/prefs_keys.dart';
-import '../get_api_app.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,10 +12,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _formKey = GlobalKey<FormState>();
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  late final SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future(
+      () async => _prefs = await SharedPreferences.getInstance(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,17 +104,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _validateAndNavigate() {
+  Future<void> _validateAndNavigate() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, Routes.userListPage);
+     await  _saveLogin();
+
+     if (!mounted) return; // add this if we have async and navigator !! it checks widgets
+      Navigator.pushReplacementNamed(context, Routes.userListPage); // helps us not to back in the prev.page
     }
   }
 
-  // Future<void> _saveLogin(BuildContext context) async { // объявили ассинхр фун-ю
-  //   await prefs.setString(PrefsKeys.login, _loginController.text);
-  //   await prefs.setString(PrefsKeys.password, _passwordController.text);
-  //   Navigator.pop(context);
-  // }
-
+  Future<void> _saveLogin() async {
+    await _prefs.setString(PrefsKeys.login, _loginController.text);
+    await _prefs.setString(PrefsKeys.password, _passwordController.text);
+  }
 }
-
