@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
 
+
   late final SharedPreferences _prefs;
 
   @override
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
+        appBar: AppBar(backgroundColor: Colors.black,),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),

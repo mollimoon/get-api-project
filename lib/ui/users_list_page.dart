@@ -6,8 +6,9 @@ import '../data/modals/user.dart';
 import 'card_widget.dart';
 
 class UsersListPage extends StatefulWidget {
-  const UsersListPage({super.key, });
-
+  const UsersListPage({
+    super.key,
+  });
 
   @override
   State<UsersListPage> createState() => _UsersListPageState();
@@ -21,6 +22,13 @@ class _UsersListPageState extends State<UsersListPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.personalPage);
+              },
+              icon: const Icon(Icons.person))
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -32,12 +40,10 @@ class _UsersListPageState extends State<UsersListPage> {
             builder: (_, snapshot) {
               // присваивается коллбек - снэпшот
               //snapshot - рез-т выполнения future (обёртка)
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
                 final items = snapshot.data as List<User>; // приводим к не-null
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
                   child: ListView.separated(
                     itemCount: items.length,
                     itemBuilder: (_, index) {
@@ -48,7 +54,7 @@ class _UsersListPageState extends State<UsersListPage> {
                             Navigator.pushNamed(
                               context,
                               Routes.cardDetail,
-                              arguments: items[index],//индекс элемента
+                              arguments: items[index], //индекс элемента
                             );
                           },
                           child: CardWidget(user: items[index]),

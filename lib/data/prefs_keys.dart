@@ -1,4 +1,4 @@
 abstract class PrefsKeys {
-  static const login = 'email';
+  static const login = 'login';
   static const password = 'password';
 }
