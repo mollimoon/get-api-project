@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled2/data/prefs_keys.dart';
-
-import '../data/routes.dart';
+import 'package:untitled2/data/routes.dart';
 
 enum MenuItems { about, logout }
 
@@ -40,15 +39,43 @@ class _PersonDetailPageState extends State<PersonDetailPage> {
         actions: [
           PopupMenuButton<MenuItems>(
             initialValue: selectedMenu, // Callback that sets the selected popup menu item.
-            onSelected: (MenuItems item){
-             switch (item) {
-               case MenuItems.about:
-                 print('one!');
-                 break;
-               case MenuItems.logout:
-                 Navigator.pushNamed(context, Routes.loginPage);
-                 break;
-             }
+            onSelected: (MenuItems item) {
+              switch (item) {
+                case MenuItems.about:
+                  print('one!');
+                  break;
+                case MenuItems.logout:
+                  showDialog(
+                    //
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Назад пути не будет'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: const <Widget>[
+                              Text('Вы действительно хотите покинуть нас?'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Нит'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Таков путь'),
+                            onPressed: _returnToLogin,
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  // Navigator.pushNamed(context, Routes.loginPage);
+                  break;
+              }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuItems>>[
               const PopupMenuItem<MenuItems>(
@@ -57,7 +84,7 @@ class _PersonDetailPageState extends State<PersonDetailPage> {
               ),
               const PopupMenuItem<MenuItems>(
                 value: MenuItems.logout,
-                child:  Text('Выход'),
+                child: Text('Выход'),
               ),
             ],
           ),
@@ -67,5 +94,17 @@ class _PersonDetailPageState extends State<PersonDetailPage> {
         child: Text('Вы вошли как $_login'),
       ),
     );
+  }
+
+  Future<void> _returnToLogin() async {
+    final resultClear = await _prefs.clear();
+    if (!mounted) return; ///check
+
+    if (resultClear == true) {
+      Navigator.pushNamedAndRemoveUntil(context, Routes.loginPage, (_)=> false);
+    }
+    else {
+      Navigator.of(context).pop();
+    }
   }
 }
