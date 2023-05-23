@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:untitled2/data/api_constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:untitled2/data/modals/avatar_photo.dart';
 import 'package:untitled2/data/modals/user.dart';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:untitled2/data/user_repository.dart';
+
+import '../data/api_constants.dart';
 
 class CardDetailPage extends StatefulWidget {
   const CardDetailPage({Key? key}) : super(key: key);
@@ -35,34 +37,54 @@ class _CardDetailPageState extends State<CardDetailPage> {
             Column(
               children: [
                 SizedBox(
-                  height: sizeOfPicture,
+                  height: sizeOfPicture + 70,
                   width: sizeOfPicture,
                   child: FutureBuilder<List<AvatarPhoto>>(
                     future: _userRepository.getAvatarPicture(),
                     builder: (_, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
                         final items = snapshot.data ?? [];
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(sizeOfPicture),
-                          child: CachedNetworkImage(
-                            errorWidget: (context, url, error) {
-                              return CircleAvatar(
-                                radius: sizeOfPicture,
-                                backgroundColor: Colors.primaries[_random.nextInt(Colors.primaries.length)]
-                                    [_random.nextInt(9) * 100],
-                              );
-                            },
-                            placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                            imageUrl: items.first.urlPhoto,
-                            fit: BoxFit.cover,
-                          ),
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: sizeOfPicture,
+                              width: sizeOfPicture,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(sizeOfPicture),
+                                child: CachedNetworkImage(
+                                  errorWidget: (context, url, error) {
+                                    return CircleAvatar(
+                                      radius: sizeOfPicture,
+                                      backgroundColor: Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                                          [_random.nextInt(9) * 100],
+                                    );
+                                  },
+                                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                  imageUrl: items.first.urlPhoto,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            InkWell(
+                              onTap: () async {
+                                await _launchUrl(items.first.urlPhoto);
+                              },
+                              child: const Text(
+                                'More information',
+                                style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                              ),
+                            ),
+                          ],
                         );
                       }
                       return const Center(child: CircularProgressIndicator());
                     },
                   ),
                 ),
-                const SizedBox(height: 20),
+
+
+                const SizedBox(height: 10),
                 Text(
                   userCard.name,
                   style: const TextStyle(
@@ -107,5 +129,12 @@ class _CardDetailPageState extends State<CardDetailPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl(String urlPhoto) async {
+    final url = Uri.parse(urlPhoto);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
