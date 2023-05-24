@@ -11,7 +11,8 @@ class Geo {
 
   static Geo fromJson(Map<String, dynamic> json) {
     return Geo(
-      lat: double.parse(json['lat']),
+      lat: double.parse(json['lat']), ///TODO под инфо о пользователе (карточка) кнопка "посмотреть на карте" и по клику
+      ///открывать карта телефона и выставляться маркер на карте
       lng: double.parse(json['lng']),
     );
   }

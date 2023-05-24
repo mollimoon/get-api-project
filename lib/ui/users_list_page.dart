@@ -20,6 +20,41 @@ class _UsersListPageState extends State<UsersListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                    image: AssetImage(
+                  'assets/images/drawerpic.jpg',
+                )),
+                color: Colors.black87,
+              ), child: null,
+            ),
+            ListTile(
+              title: const Text('Список пользователей'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Посты'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.black,
         actions: [
@@ -74,3 +109,5 @@ class _UsersListPageState extends State<UsersListPage> {
     );
   }
 }
+
+///TODO добавить drawer заголовок из 2х пунктов "список пользователей" и открываться посты
