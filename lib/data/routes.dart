@@ -4,4 +4,5 @@ abstract class Routes {
   static const cardDetail = '/cardDetail';
   static const userListPage = '/userList';
   static const personalPage = '/personalPage';
+  static const postsPage = '/postsPage';
 }
