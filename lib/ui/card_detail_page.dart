@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/data/modals/geo.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:untitled2/data/modals/avatar_photo.dart';
 import 'package:untitled2/data/modals/user.dart';
@@ -82,8 +83,6 @@ class _CardDetailPageState extends State<CardDetailPage> {
                     },
                   ),
                 ),
-
-
                 const SizedBox(height: 10),
                 Text(
                   userCard.name,
@@ -122,6 +121,15 @@ class _CardDetailPageState extends State<CardDetailPage> {
                       fontSize: 16,
                     ),
                   ),
+                  InkWell(
+                    onTap: () async {
+                      await _launchGeo(lat:userCard.address.geo.lat, lng:userCard.address.geo.lng);
+                    },
+                    child: const Text(
+                      'Look at the map',
+                      style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -133,6 +141,14 @@ class _CardDetailPageState extends State<CardDetailPage> {
 
   Future<void> _launchUrl(String urlPhoto) async {
     final url = Uri.parse(urlPhoto);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<void> _launchGeo({required double lat, required double lng}) async {
+    final url = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }

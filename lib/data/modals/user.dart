@@ -10,6 +10,7 @@ class User {
   final Company company;
   final Address address;
 
+
   const User({
     required this.name,
     required this.username,
@@ -17,6 +18,7 @@ class User {
     required this.id,
     required this.company,
     required this.address,
+
   });
 
   static User fromJson(Map<String, dynamic> json) {
