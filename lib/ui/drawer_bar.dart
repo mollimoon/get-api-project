@@ -28,13 +28,13 @@ class DrawerAppBar extends StatelessWidget {
             ListTile(
               title: const Text('Список пользователей'),
               onTap: () {
-                Navigator.pushNamed(context, Routes.userListPage);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.userListPage, (route) => false);
               },
             ),
             ListTile(
               title: const Text('Посты'),
               onTap: () {
-                Navigator.pushNamed(context, Routes.postsPage);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.postsPage, (route) => false);
               },
             ),
           ],
